@@ -11,7 +11,7 @@ from tianyQbot.utils import sendMsg
 @csrf_exempt
 def respo(request):
     # 加载二次元词典
-    with open(r'/root/Django/tianyQbot/tianyQbot/src/data.json', 'r', encoding='utf-8') as f:
+    with open(r'tianyQbot/src/data.json', 'r', encoding='utf-8') as f:
         data_json = f.read()
         # print(type(data_json))
     dict_json = json.loads(data_json)
