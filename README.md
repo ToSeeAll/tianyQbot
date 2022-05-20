@@ -1,13 +1,19 @@
-#食用方法：
+# 基于go-cqhttp与Django实现的QQ机器人
 
-1  `git clone https://github.com/ToSeeAll/tianyQbot`
+## 食用方法：
 
-2   `cd tianyQbot`
+1·  `git clone https://github.com/ToSeeAll/tianyQbot`
 
-3   `pip install -r requirements.txt`
+2·   `cd tianyQbot`
 
-4   安装go-cqhttp(![https://github.com/Mrs4s/go-cqhttp])
+3·   `pip install -r requirements.txt`
 
-5   修改go-cqhttp配置，参考`config.yml.temp`
+4·   安装[go-cqhttp](https://github.com/Mrs4s/go-cqhttp)
 
-6   `cd tianyQbot ` `python manage.py 5701`
+5·   修改go-cqhttp配置，参考`config.yml.temp`
+
+6·   启动go-cqhttp，登录机器人
+
+7·   `cd tianyQbot ` `python manage.py 5701`
+
+8·   请自行保持go-cqhttp与python的后台运行，可选用screen等实现进程守护
