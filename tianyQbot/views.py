@@ -30,14 +30,13 @@ def respo(request):
     except KeyError:
         pass
     try:
-        if '[CQ:at,qq=2536597389]' in message:
+        if '[CQ:at,qq=2536597389]' in message:#需自行把QQ改成机器人的QQ号
+            #TODO：添加配置文件，实现自动配置机器人QQ以及超级用户
             if '菜单' in message or '\xe8\x8f\x9c\xe5\x8d\x95' in message:
                 text = '目前支持功能有：\n1:啥都不支持\n2.你猜我支持啥\n3.说了不支持还\n4.。。。。'
                 sendMsg.send_group_msg(text, group_id)
             elif message.split(' ')[-1] in list(dict_json.keys()):
-                if user_id ==429442314:
-                # print(type(dict_json))
-                    # print(message.split(' ')[-1])
+                if user_id ==429442314:#超级用户
                     text = dict_json[message.split(' ')[-1]]
                     msg = choice(text)
                 else:
