@@ -36,11 +36,12 @@ def respo(request):
     #     data_json = f.read()
     #     # print(type(data_json))
     # dict_json = json.loads(data_json)
-    with open(r'tianyQbot\src\config.json', 'r', encoding='utf-8') as f:
+    with open(r'tianyQbot/src/config.json', 'r', encoding='utf-8') as f:
         config = f.read()
     config_json = json.loads(config)
     access_token = config_json['access_token']
     service_id = config_json['service_id']
+    QQ_bot_id = config_json['QQ_bot_id']
     # todo 2022/5/21 设置初始化读取配置
 
     # ***********搜图tag
@@ -63,7 +64,7 @@ def respo(request):
         _message = ''
         group_id = ''
     try:
-        if '[CQ:at,qq=2536597389]' in _message:  # 需自行把QQ改成机器人的QQ号
+        if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
             # TODO：添加配置文件，实现自动配置机器人QQ以及超级用户
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
                 text = '目前支持功能有：\n1:以图搜图\n2.你猜我支持啥\n3.说了不支持还\n4.。。。。'
