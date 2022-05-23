@@ -1,10 +1,8 @@
-import os
 import shutil
 
-from azure.cognitiveservices.speech.audio import AudioOutputConfig
-from azure.cognitiveservices.speech import ResultReason
-
 from aspeak import SpeechServiceProvider, text_to_speech, AudioFormat, FileFormat, AspeakError
+from azure.cognitiveservices.speech import ResultReason
+from azure.cognitiveservices.speech.audio import AudioOutputConfig
 
 
 # output = AudioOutputConfig(use_default_speaker=True)
