@@ -1,3 +1,4 @@
+import os
 from email import message
 import json
 from random import choice
@@ -5,7 +6,7 @@ from django.http import HttpResponse
 import requests
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg, feimao
+from tianyQbot.utils import sendMsg, feimao, tts
 from tianyQbot.utils import soutu
 from tianyQbot.utils import chat
 
@@ -68,7 +69,7 @@ def respo(request):
         if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
             # *************菜单*******************
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
-                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.说了不支持还\n4.。。。。'
+                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.支持啥功能呢\n5.不到啊'
                 sendMsg.send_group_msg(text, group_id)
             # elif _message.split(' ')[-1] in list(dict_json.keys()):
             #     if user_id ==429442314:#超级用户
@@ -94,6 +95,14 @@ def respo(request):
                 else:
                     sendMsg.send_group_msg("请检查格式：【飞猫 8位飞猫云识别码】|【飞猫云 8位识别码】", group_id)
             # *************自动聊天*******************
+            elif '语音' in _message:
+                _text = _message.split(' ')[-1]
+                if tts.text2mp3(_text):
+                    _folder = os.path.abspath('.').replace('\\', '/')
+                    sendMsg.send_group_msg('[CQ:record,file=file:///' + _folder + '/tianyQbot/src/output.mp3]',
+                                           group_id)
+                else:
+                    sendMsg.send_group_msg('转换失败', group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
