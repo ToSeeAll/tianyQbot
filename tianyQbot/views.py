@@ -5,28 +5,29 @@ from django.http import HttpResponse
 import requests
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg
+from tianyQbot.utils import sendMsg, feimao
 from tianyQbot.utils import soutu
+from tianyQbot.utils import chat
 
 
-def chat(query, access_token, service_id):
-    url = 'https://aip.baidubce.com/rpc/2.0/unit/service/v3/chat?access_token=' + access_token
-    post_data = {
-        "version": "3.0",
-        "service_id": service_id,
-        "session_id": "",
-        "log_id": "7758521",
-        "request": {
-            "terminal_id": "88888",
-            "query": query
-        }
-    }
-    post_data = json.dumps(post_data)
-    headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.post(url, data=post_data, headers=headers)
-    if response:
-        # print(response.json())
-        return response.json()['result']['context']['SYS_PRESUMED_HIST'][-1]
+# def chat(query, access_token, service_id):
+#     url = 'https://aip.baidubce.com/rpc/2.0/unit/service/v3/chat?access_token=' + access_token
+#     post_data = {
+#         "version": "3.0",
+#         "service_id": service_id,
+#         "session_id": "",
+#         "log_id": "7758521",
+#         "request": {
+#             "terminal_id": "88888",
+#             "query": query
+#         }
+#     }
+#     post_data = json.dumps(post_data)
+#     headers = {'content-type': 'application/x-www-form-urlencoded'}
+#     response = requests.post(url, data=post_data, headers=headers)
+#     if response:
+#         # print(response.json())
+#         return response.json()['result']['context']['SYS_PRESUMED_HIST'][-1]
 
 
 @csrf_exempt
@@ -65,9 +66,9 @@ def respo(request):
         group_id = ''
     try:
         if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
-            # TODO：添加配置文件，实现自动配置机器人QQ以及超级用户
+            # *************菜单*******************
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
-                text = '目前支持功能有：\n1:以图搜图\n2.你猜我支持啥\n3.说了不支持还\n4.。。。。'
+                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.说了不支持还\n4.。。。。'
                 sendMsg.send_group_msg(text, group_id)
             # elif _message.split(' ')[-1] in list(dict_json.keys()):
             #     if user_id ==429442314:#超级用户
@@ -76,14 +77,23 @@ def respo(request):
             #     else:
             #         msg='略略略'
             #     sendMsg.send_group_msg(msg, group_id)
+            # *************以图搜图*******************
             elif '以图搜图' in _message:
                 url = _message.split('url=')[-1].replace(']', '')
-                print(url)
+                # print(url)
                 if url:
                     soutu.sotu(url=url, group_id=group_id)
                 else:
                     sendMsg.send_group_msg('图呢？', group_id)
-
+            # *************飞猫云直链解析*******************
+            elif '飞猫' in _message:
+                _code = _message.split(' ')[-1]
+                if len(_code) == 8:
+                    _directLink = feimao.direct_link(_code)
+                    sendMsg.send_group_msg(_directLink, group_id)
+                else:
+                    sendMsg.send_group_msg("请检查格式：【飞猫 8位飞猫云识别码】|【飞猫云 8位识别码】", group_id)
+            # *************自动聊天*******************
             else:
                 # *********自动聊天******************
                 # print(_message)
@@ -99,7 +109,9 @@ def respo(request):
                 # msg = body['content'].replace('菲菲', '小丁')
                 # msg = '听不懂呢'
                 # print(_message)
-                msg = chat((_message.split(' '))[-1], access_token, service_id)
+                # msg = chat((_message.split(' '))[-1], access_token, service_id)
+                print(_message)
+                msg = chat.baidu_chat((_message.split(' '))[-1], access_token, service_id)
                 # print((_message.split(' '))[-1], msg)
                 sendMsg.send_group_msg(msg, group_id)
     except NameError:
