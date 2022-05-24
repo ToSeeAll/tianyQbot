@@ -47,3 +47,5 @@ def send_group_pic(pictures, group_id, auto_escape='false'):
     res = requests.post(url, headers=header, data=message)
     # print(res.text)
     return res
+# todo 2022/5/24 添加异步机制处理发送图片时会多发的bug
+# todo 2022/5/24 曲线救国：可以用python把获取到的图片下载了，然后在通过cg发送，待测试

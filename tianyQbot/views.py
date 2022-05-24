@@ -105,7 +105,9 @@ def respo(request):
                     sendMsg.send_group_msg('转换失败', group_id)
             elif '图片' in _message:
                 _count = _message.split(' ')[-1]
-                sendMsg.send_group_pic(picture.get_picture(_count), group_id)
+                pictures = picture.get_picture(_count)
+                # print(pictures)
+                sendMsg.send_group_pic(pictures, group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
@@ -122,7 +124,7 @@ def respo(request):
                 # msg = '听不懂呢'
                 # print(_message)
                 # msg = chat((_message.split(' '))[-1], access_token, service_id)
-                print(_message)
+                # print(_message)
                 msg = chat.baidu_chat((_message.split(' '))[-1], access_token, service_id)
                 # print((_message.split(' '))[-1], msg)
                 sendMsg.send_group_msg(msg, group_id)
