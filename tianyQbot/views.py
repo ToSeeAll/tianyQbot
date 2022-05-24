@@ -6,7 +6,7 @@ from django.http import HttpResponse
 import requests
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg, feimao, tts
+from tianyQbot.utils import sendMsg, feimao, tts, picture
 from tianyQbot.utils import soutu
 from tianyQbot.utils import chat
 
@@ -69,7 +69,7 @@ def respo(request):
         if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
             # *************菜单*******************
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
-                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.支持啥功能呢\n5.不到啊'
+                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.妹子图\n5.不到啊'
                 sendMsg.send_group_msg(text, group_id)
             # elif _message.split(' ')[-1] in list(dict_json.keys()):
             #     if user_id ==429442314:#超级用户
@@ -103,6 +103,9 @@ def respo(request):
                                            group_id)
                 else:
                     sendMsg.send_group_msg('转换失败', group_id)
+            elif '图片' in _message:
+                _count = _message.split(' ')[-1]
+                sendMsg.send_group_pic(picture.get_picture(_count), group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
