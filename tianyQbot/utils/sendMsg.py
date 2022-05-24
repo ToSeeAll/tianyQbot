@@ -30,13 +30,13 @@ def send_group_pic(pictures, group_id, auto_escape='false'):
     }
     url = 'http://127.0.0.1:5700/send_group_msg'
     _messages = ''
-    print(type(pictures))
+    # print(type(pictures))
     if isinstance(pictures, list):
         for x in pictures:
             _messages += '[CQ:image,file=' + x + ']'
     elif isinstance(pictures, str):
         _messages = pictures
-    print(_messages)
+    # print(_messages)
     data = {
         'group_id': str(group_id),
         'message': _messages,
