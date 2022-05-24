@@ -8,11 +8,11 @@ def get_picture(_count):
     with open(_folder + '/tianyQbot/src/pic.txt', 'r', encoding='utf8') as f:
         lines = f.read()
     lines = lines.split('\n')
-    print(len(lines))
+    # print(len(lines))
     links = list()
     for i in range(int(_count)):
         links.append(choice(lines))
-    print(links)
+    # print(links)
     return links
 
 # get_picture('5')
