@@ -83,8 +83,12 @@ def respo(request):
                 else:
                     sendMsg.send_group_msg('转换失败', group_id)
             elif '图片' in _message:
-                _count = _message.split(' ')[-1]
-                pictures = picture.get_picture(_count)
+                if '黑丝' in _message:
+                    _count = _message.split(' ')[-1]
+                    pictures = picture.get_picture_heisi(_count)
+                else:
+                    _count = _message.split(' ')[-1]
+                    pictures = picture.get_picture(_count)
                 # print(pictures)
                 sendMsg.send_group_pic(pictures, group_id)
             elif '二刺螈' in _message:
@@ -97,10 +101,14 @@ def respo(request):
                     _word = _message.split(' ')[-1]
                     _music = music.music_163(_word)
                     sendMsg.send_group_msg(_music, group_id)
-                elif 'QQ' or 'qq' in _message:
+                elif 'QQ' in _message:
+                    # print(_message)
                     _word = _message.split(' ')[-1]
                     _music = music.music_qq(_word)
                     sendMsg.send_group_msg(_music, group_id)
+            #     elif '普通' in _message:
+            #         sendMsg.send_group_msg(
+            #             '[CQ:music,type=custom,url=https://gitee.com/toseeall/JSP_Exce/raw/master/src/main/webapp/Ch4/music/4.mp3,audio=https://gitee.com/toseeall/JSP_Exce/raw/master/src/main/webapp/Ch4/music/4.mp3,title=音乐标题]', group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
