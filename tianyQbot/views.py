@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg, feimao, tts, picture, setu
+from tianyQbot.utils import sendMsg, feimao, tts, picture, setu, music
 from tianyQbot.utils import soutu
 from tianyQbot.utils import chat
 
@@ -92,6 +92,11 @@ def respo(request):
                 pictures = setu.get_pixiv_pic(_count, no_tag)
                 # print(pictures)
                 sendMsg.send_group_pic(pictures, group_id)
+            elif '音乐' in _message:
+                if '网易' in _message:
+                    _word = _message.split(' ')[-1]
+                    _music = music.music_163(_word)
+                    sendMsg.send_group_msg(_music, group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
