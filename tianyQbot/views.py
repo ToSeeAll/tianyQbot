@@ -58,6 +58,9 @@ def respo(request):
             #         msg='略略略'
             #     sendMsg.send_group_msg(msg, group_id)
             # *************以图搜图*******************
+            elif '帮助' in _message:
+                text = '帮锤子，自己探索'
+                sendMsg.send_group_msg(text, group_id)
             elif '以图搜图' in _message:
                 url = _message.split('url=')[-1].replace(']', '')
                 # print(url)
