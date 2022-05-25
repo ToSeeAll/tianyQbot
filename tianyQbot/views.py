@@ -1,11 +1,26 @@
-import os
 import json
+import os
+
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg, feimao, tts, picture, setu, music
-from tianyQbot.utils import soutu
-from tianyQbot.utils import chat
+from tianyQbot.models import Config
+from tianyQbot.utils import sendMsg, feimao, tts, picture, setu, music, soutu, chat
+
+# *************读取配置文件*****
+with open(r'tianyQbot/src/config.json', 'r', encoding='utf-8') as f:
+    config = f.read()
+config_json = json.loads(config)
+access_token = config_json['access_token']
+service_id = config_json['service_id']
+QQ_bot_id = config_json['QQ_bot_id']
+no_tag = config_json['no_tag']
+pixiv_proxy = config_json['pixiv_proxy']
+
+
+# todo 2022/5/21 设置初始化读取配置
+
+# ****************************
 
 
 @csrf_exempt
@@ -15,15 +30,6 @@ def respo(request):
     #     data_json = f.read()
     #     # print(type(data_json))
     # dict_json = json.loads(data_json)
-    with open(r'tianyQbot/src/config.json', 'r', encoding='utf-8') as f:
-        config = f.read()
-    config_json = json.loads(config)
-    access_token = config_json['access_token']
-    service_id = config_json['service_id']
-    QQ_bot_id = config_json['QQ_bot_id']
-    no_tag = config_json['no_tag']
-    pixiv_proxy = config_json['pixiv_proxy']
-    # todo 2022/5/21 设置初始化读取配置
 
     # ***********搜图tag
     soutuTag = False
@@ -48,7 +54,7 @@ def respo(request):
         if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
             # *************菜单*******************
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
-                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.妹子图\n5.二次元\n6.音乐（确信）\n7.不到啊'
+                text = '目前支持功能有：\n0.帮助\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.妹子图\n5.二次元\n6.音乐（确信）\n7.不到啊'
                 sendMsg.send_group_msg(text, group_id)
             # elif _message.split(' ')[-1] in list(dict_json.keys()):
             #     if user_id ==429442314:#超级用户
@@ -112,6 +118,11 @@ def respo(request):
             #     elif '普通' in _message:
             #         sendMsg.send_group_msg(
             #             '[CQ:music,type=custom,url=https://gitee.com/toseeall/JSP_Exce/raw/master/src/main/webapp/Ch4/music/4.mp3,audio=https://gitee.com/toseeall/JSP_Exce/raw/master/src/main/webapp/Ch4/music/4.mp3,title=音乐标题]', group_id)
+            elif '数据库' in _message:
+                d = dict(qq='2387581631', sex='男')
+                c = Config.objects.using('user').create(**d)
+                print(c.__dict__)
+                sendMsg.send_group_msg('执行完毕', group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)

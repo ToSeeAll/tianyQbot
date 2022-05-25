@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-$j57a)%a$uc*0gb6hd*jtn8-0gm8%pz*3)v^%klm@+knq*cu&t
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -70,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tianyQbot.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -78,6 +75,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'user': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'tianyQbot' / 'databases' / 'user.sqlite3'
     }
 }
 
@@ -100,7 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -111,7 +111,6 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 
 USE_TZ = False
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
