@@ -97,6 +97,10 @@ def respo(request):
                     _word = _message.split(' ')[-1]
                     _music = music.music_163(_word)
                     sendMsg.send_group_msg(_music, group_id)
+                elif 'QQ' or 'qq' in _message:
+                    _word = _message.split(' ')[-1]
+                    _music = music.music_qq(_word)
+                    sendMsg.send_group_msg(_music, group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
