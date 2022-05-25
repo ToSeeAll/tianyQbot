@@ -1,34 +1,11 @@
 import os
-from email import message
 import json
-from random import choice
 from django.http import HttpResponse
-import requests
 from django.views.decorators.csrf import csrf_exempt
 
-from tianyQbot.utils import sendMsg, feimao, tts, picture
+from tianyQbot.utils import sendMsg, feimao, tts, picture, setu
 from tianyQbot.utils import soutu
 from tianyQbot.utils import chat
-
-
-# def chat(query, access_token, service_id):
-#     url = 'https://aip.baidubce.com/rpc/2.0/unit/service/v3/chat?access_token=' + access_token
-#     post_data = {
-#         "version": "3.0",
-#         "service_id": service_id,
-#         "session_id": "",
-#         "log_id": "7758521",
-#         "request": {
-#             "terminal_id": "88888",
-#             "query": query
-#         }
-#     }
-#     post_data = json.dumps(post_data)
-#     headers = {'content-type': 'application/x-www-form-urlencoded'}
-#     response = requests.post(url, data=post_data, headers=headers)
-#     if response:
-#         # print(response.json())
-#         return response.json()['result']['context']['SYS_PRESUMED_HIST'][-1]
 
 
 @csrf_exempt
@@ -44,6 +21,8 @@ def respo(request):
     access_token = config_json['access_token']
     service_id = config_json['service_id']
     QQ_bot_id = config_json['QQ_bot_id']
+    no_tag = config_json['no_tag']
+    pixiv_proxy = config_json['pixiv_proxy']
     # todo 2022/5/21 设置初始化读取配置
 
     # ***********搜图tag
@@ -69,7 +48,7 @@ def respo(request):
         if '[CQ:at,qq=' + QQ_bot_id + ']' in _message:  # 需自行把QQ改成机器人的QQ号
             # *************菜单*******************
             if '菜单' in _message or '\xe8\x8f\x9c\xe5\x8d\x95' in _message:
-                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.妹子图\n5.不到啊'
+                text = '目前支持功能有：\n1:以图搜图\n2.飞猫云解析\n3.语音转文本\n4.妹子图\n5.二次元\n6.音乐（确信）\n7.不到啊'
                 sendMsg.send_group_msg(text, group_id)
             # elif _message.split(' ')[-1] in list(dict_json.keys()):
             #     if user_id ==429442314:#超级用户
@@ -108,22 +87,13 @@ def respo(request):
                 pictures = picture.get_picture(_count)
                 # print(pictures)
                 sendMsg.send_group_pic(pictures, group_id)
+            elif '二刺螈' in _message:
+                _count = _message.split(' ')[-1]
+                pictures = setu.get_pixiv_pic(_count, no_tag)
+                # print(pictures)
+                sendMsg.send_group_pic(pictures, group_id)
             else:
                 # *********自动聊天******************
-                # print(_message)
-                # params = {
-                #     'key': 'free',
-                #     'appid': '0',
-                #     'msg': _message.split(' ')[-1],
-                # }
-
-                # response = requests.get(
-                #     'https://api.qingyunke.com/api.php', params=params)
-                # body = response.json()
-                # msg = body['content'].replace('菲菲', '小丁')
-                # msg = '听不懂呢'
-                # print(_message)
-                # msg = chat((_message.split(' '))[-1], access_token, service_id)
                 # print(_message)
                 msg = chat.baidu_chat((_message.split(' '))[-1], access_token, service_id)
                 # print((_message.split(' '))[-1], msg)
