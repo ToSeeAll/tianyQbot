@@ -1,5 +1,5 @@
 # 基于go-cqhttp与Django实现的QQ机器人
-
+##  此分支受限于系统架构等因素，功能略区别于主分支，仅适用于arm64架构设备
 ## 食用方法：
 
 1·  `git clone https://github.com/ToSeeAll/tianyQbot`
