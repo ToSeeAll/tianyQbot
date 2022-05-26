@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from tianyQbot.models import Config
-from tianyQbot.utils import sendMsg, feimao, tts, picture, setu, music, soutu, chat
+from tianyQbot.utils import sendMsg, feimao, tts, picture, setu, music, soutu, chat, minecraft
 
 # *************读取配置文件*****
 with open(r'tianyQbot/src/config.json', 'r', encoding='utf-8') as f:
@@ -123,6 +123,16 @@ def respo(request):
                 c = Config.objects.using('user').create(**d)
                 print(c.__dict__)
                 sendMsg.send_group_msg('执行完毕', group_id)
+            elif 'mc' or '我的世界' in _message:
+                if '坐标' in _message:
+                    _x = _message.split(' ')[-2]
+                    _z = _message.split(' ')[-1]
+                    if '地狱' in _message:
+                        _new_x, _new_z = minecraft.coordinates(_x, _z, False)
+                    else:
+                        _new_x, _new_z = minecraft.coordinates(_x, _z, True)
+                    _text = 'X: ' + str(int(_new_x)) + ' Z:' + str(int(_new_z))
+                    sendMsg.send_group_msg(_text, group_id)
             else:
                 # *********自动聊天******************
                 # print(_message)
