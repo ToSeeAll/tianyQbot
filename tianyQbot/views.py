@@ -95,6 +95,9 @@ def respo(request):
                 if '黑丝' in _message:
                     _count = _message.split(' ')[-1]
                     pictures = picture.get_picture_heisi(_count)
+                elif 'cos' in _message:
+                    _count = _message.split(' ')[-1]
+                    pictures = picture.get_picture_cos(_count)
                 else:
                     _count = _message.split(' ')[-1]
                     pictures = picture.get_picture(_count)
