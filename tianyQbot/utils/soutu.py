@@ -29,7 +29,7 @@ def __format_send(a, group_id):
 
 
 def sotu(url, group_id):
-    with open(r'tianyQbot\src\config.json', 'r', encoding='utf-8') as f:
+    with open(r'tianyQbot/src/config.json', 'r', encoding='utf-8') as f:
         config = f.read()
     config_json = json.loads(config)
     URL = "https://saucenao.com/search.php"
